@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
 let splash;
@@ -10,6 +10,9 @@ app.on("ready", () => {
     width: 1920,
     height: 1080,
     show: false, // don't show the main window
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
   // create a new `splash`-Window
   splash = new BrowserWindow({
@@ -26,5 +29,16 @@ app.on("ready", () => {
   mainWindow.once("ready-to-show", () => {
     splash.destroy();
     mainWindow.show();
+    mainWindow.webContents.openDevTools();
+  });
+});
+
+app.on("ready", () => {
+  // ... (existing code)
+
+  // Define an IPC handler to listen for "quit" message
+  ipcMain.on("quit", () => {
+    // Close the main window
+    mainWindow.close();
   });
 });
