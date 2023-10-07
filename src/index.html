@@ -2,20 +2,37 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
+    <title>MofaCH</title>
     <link rel="stylesheet" href="index.css" />
     <!-- <script defer src="render.js"></script> -->
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome by Colin</p>
-
-    <form>
-      <input type="email" id="emailInput" />
-      <input type="password" id="passwordInput" />
-      <button type="button" id="submitData">Register</button>
-    </form>
-    <button id="closeBtn">Quit</button>
+    <h1>MofaCH</h1>
+    <p>
+      MofaCH ist eine Platform, für alle Töfflibuebe und Töfflimeitli! Hier
+      kannst du dein Mofa zeigen, hast einen Marktplatz, einen Tutorialbereich
+      wo andere Nutzer hilfreiche Tutorials hochladen können und vieles mehr.
+      Sei gespannt und entdecke MofaCH! Created by Colin
+    </p>
+    <div class="formgrid">
+      <form>
+        <input type="email" id="emailInput" placeholder="deine@email.com" />
+        <input
+          type="password"
+          id="passwordInput"
+          placeholder="deinPasswort123"
+        />
+        <button type="button" id="registerBTN">Registrieren</button>
+        <button type="button" id="loginBTN">Anmelden</button>
+        <button type="button" id="changeToRegister">
+          Du hast noch keinen Account? KLICKE HIER!
+        </button>
+        <button type="button" id="changeToLogin">
+          Du hast einen Account? KLICKE HIER!
+        </button>
+      </form>
+    </div>
+    <button id="closeBtn">Verlassen</button>
 
     <p id="userEmail"></p>
   </body>
@@ -28,20 +45,19 @@
   import {
     getAuth,
     createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
   } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyDCC5_C_XCp5YckJ2z0CkHZ1NyjvF2Wm_E",
-    authDomain: "chatapp-edb8c.firebaseapp.com",
-    projectId: "chatapp-edb8c",
-    storageBucket: "chatapp-edb8c.appspot.com",
-    messagingSenderId: "574617176079",
-    appId: "1:574617176079:web:91e10d0d871be2c28ebb7a",
-    measurementId: "G-FPT1VCS38X",
+    apiKey: "AIzaSyCWr3sEgXv2kJbUf-fUdQPc0Fl4PgcTf1I",
+    authDomain: "mofach-49f97.firebaseapp.com",
+    projectId: "mofach-49f97",
+    storageBucket: "mofach-49f97.appspot.com",
+    messagingSenderId: "239334965682",
+    appId: "1:239334965682:web:820b4e5f1158c5b7cde4ab",
+    measurementId: "G-36GK6STHNE",
   };
 
   // Initialize Firebase
@@ -49,7 +65,37 @@
   const analytics = getAnalytics(app);
   const auth = getAuth(app);
 
-  submitData.addEventListener("click", (e) => {
+  let user;
+
+  //on start show login inputs and buttons
+  if (!user) {
+    document.getElementById("registerBTN").style.display = "none";
+    document.getElementById("loginBTN").style.display = "block";
+    document.getElementById("changeToRegister").style.display = "block";
+    document.getElementById("changeToLogin").style.display = "none";
+  } else {
+    document.getElementById("registerBTN").style.display = "none";
+    document.getElementById("loginBTN").style.display = "none";
+    document.getElementById("changeToRegister").style.display = "none";
+    document.getElementById("changeToLogin").style.display = "none";
+  }
+
+  //when changeToRegister button clicked, show register button and inputs
+  changeToRegister.addEventListener("click", (e) => {
+    document.getElementById("registerBTN").style.display = "block";
+    document.getElementById("loginBTN").style.display = "none";
+    document.getElementById("changeToRegister").style.display = "none";
+    document.getElementById("changeToLogin").style.display = "block";
+  });
+  //when changeToLogin button clicked, show login button and inputs
+  changeToLogin.addEventListener("click", (e) => {
+    document.getElementById("registerBTN").style.display = "none";
+    document.getElementById("loginBTN").style.display = "block";
+    document.getElementById("changeToRegister").style.display = "block";
+    document.getElementById("changeToLogin").style.display = "none";
+  });
+
+  registerBTN.addEventListener("click", (e) => {
     let email = document.getElementById("emailInput").value;
     let password = document.getElementById("passwordInput").value;
 
@@ -59,7 +105,29 @@
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
-        const user = userCredential.user;
+        user = userCredential.user;
+        document.getElementById("userEmail").textContent = user.email;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  });
+
+  loginBTN.addEventListener("click", (e) => {
+    let email = document.getElementById("emailInput").value;
+    let password = document.getElementById("passwordInput").value;
+
+    console.log(email);
+    console.log(password);
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        user = userCredential.user;
+        document.getElementById("userEmail").textContent = user.email;
         // ...
       })
       .catch((error) => {

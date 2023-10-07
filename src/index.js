@@ -6,12 +6,14 @@ let splash;
 app.on("ready", () => {
   // create main browser window
   mainWindow = new BrowserWindow({
-    titleBarStyle: "hidden",
+    titleBarStyle: "default",
     width: 1920,
     height: 1080,
     show: false, // don't show the main window
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
+      nativeWindowOpen: true,
     },
   });
   // create a new `splash`-Window
