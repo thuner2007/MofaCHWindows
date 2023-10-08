@@ -47,6 +47,11 @@
           id="profileBtn"
           src="./sprites/profile_icon.png"
         />
+        <img
+          class="topBarBtns"
+          id="liveChatBtn"
+          src="./sprites/chat_icon.jpg"
+        />
       </div>
       <h1>Du bist eingeloggt!</h1>
     </div>
@@ -70,6 +75,18 @@
       <button id="logoutProfile">logout</button>
       <img id="saveProfileBtn" src="./sprites/save_icon.png" />
     </div>
+
+    <div id="LiveChat">
+      <div id="LiveChatMessages"></div>
+      <form>
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="schreibe eine Nachricht!"
+        />
+      </form>
+      <button id="sendMessage">senden</button>
+    </div>
   </body>
 </html>
 
@@ -83,6 +100,9 @@
     setDoc,
     getDoc,
     collection,
+    onSnapshot,
+    query,
+    orderBy,
   } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
   import {
     getAuth,
@@ -124,6 +144,7 @@
       document.getElementById("settingsPanel").style.display = "none";
       document.getElementById("profilePanel").style.display = "none";
       document.getElementById("loginPanel").style.display = "block";
+      document.getElementById("LiveChat").style.display = "none";
 
       document.getElementById("mainPanel").style.display = "none";
     } else {
@@ -131,10 +152,17 @@
       document.getElementById("loginBTN").style.display = "none";
       document.getElementById("changeToRegister").style.display = "none";
       document.getElementById("changeToLogin").style.display = "none";
+      document.getElementById("LiveChat").style.display = "none";
 
       document.getElementById("mainPanel").style.display = "block";
     }
   }
+
+  liveChatBtn.addEventListener("click", (e) => {
+    document.getElementById("LiveChat").style.display = "block";
+    document.getElementById("settingsPanel").style.display = "none";
+    document.getElementById("profilePanel").style.display = "none";
+  });
 
   //when changeToRegister button clicked, show register button and inputs
   changeToRegister.addEventListener("click", (e) => {
@@ -225,12 +253,14 @@
     //open settings panel
     document.getElementById("settingsPanel").style.display = "block";
     document.getElementById("profilePanel").style.display = "none";
+    document.getElementById("LiveChat").style.display = "none";
   });
 
   document.getElementById("profileBtn").addEventListener("click", () => {
     // open profile panel
     document.getElementById("profilePanel").style.display = "block";
     document.getElementById("settingsPanel").style.display = "none";
+    document.getElementById("LiveChat").style.display = "none";
 
     // get profile data
     getDoc(doc(db, "Users", user.email)).then((docSnapshot) => {
@@ -260,4 +290,53 @@
     // Send a message to request window closure
     window.api.send("quit");
   });
+
+  function makeid(length) {
+    let result = "";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+  }
+
+  document.getElementById("sendMessage").addEventListener("click", (e) => {
+    const timestamp = Date.now(); // Get the current timestamp
+
+    setDoc(doc(db, "LiveChat", makeid(10)), {
+      username: user.email,
+      message: document.getElementById("messageInput").value,
+      timestamp: timestamp, // Set the timestamp in the document
+    });
+
+    document.getElementById("messageInput").value = "";
+  });
+
+  onSnapshot(
+    query(collection(db, "LiveChat"), orderBy("timestamp")),
+    (querySnapshot) => {
+      const liveChatContainer = document.getElementById("LiveChatMessages");
+
+      // Clear any existing content in the container
+      liveChatContainer.innerHTML = "";
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const message = data.message;
+        const username = data.username;
+        const timestamp = data.timestamp;
+
+        // Create a new <p> element for each message
+        const newPTag = document.createElement("p");
+        newPTag.textContent = username + ": " + message;
+
+        // Append the <p> element to the container
+        liveChatContainer.appendChild(newPTag);
+      });
+    }
+  );
 </script>
