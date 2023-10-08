@@ -7,34 +7,62 @@
     <!-- <script defer src="render.js"></script> -->
   </head>
   <body>
-    <h1>MofaCH</h1>
-    <p>
-      MofaCH ist eine Platform, für alle Töfflibuebe und Töfflimeitli! Hier
-      kannst du dein Mofa zeigen, hast einen Marktplatz, einen Tutorialbereich
-      wo andere Nutzer hilfreiche Tutorials hochladen können und vieles mehr.
-      Sei gespannt und entdecke MofaCH! Created by Colin
-    </p>
-    <div class="formgrid">
-      <form>
-        <input type="email" id="emailInput" placeholder="deine@email.com" />
-        <input
-          type="password"
-          id="passwordInput"
-          placeholder="deinPasswort123"
-        />
-        <button type="button" id="registerBTN">Registrieren</button>
-        <button type="button" id="loginBTN">Anmelden</button>
-        <button type="button" id="changeToRegister">
-          Du hast noch keinen Account? KLICKE HIER!
-        </button>
-        <button type="button" id="changeToLogin">
-          Du hast einen Account? KLICKE HIER!
-        </button>
-      </form>
-    </div>
-    <button id="closeBtn">Verlassen</button>
+    <div id="loginPanel">
+      <h1>MofaCH</h1>
+      <p>
+        MofaCH ist eine Platform, für alle Töfflibuebe und Töfflimeitli! Hier
+        kannst du dein Mofa zeigen, hast einen Marktplatz, einen Tutorialbereich
+        wo andere Nutzer hilfreiche Tutorials hochladen können und vieles mehr.
+        Sei gespannt und entdecke MofaCH! Created by Colin
+      </p>
+      <div class="formgrid">
+        <form>
+          <input type="email" id="emailInput" placeholder="deine@email.com" />
+          <input
+            type="password"
+            id="passwordInput"
+            placeholder="deinPasswort123"
+          />
+          <button type="button" id="registerBTN">Registrieren</button>
+          <button type="button" id="loginBTN">Anmelden</button>
+          <button type="button" id="changeToRegister">
+            Du hast noch keinen Account? KLICKE HIER!
+          </button>
+          <button type="button" id="changeToLogin">
+            Du hast einen Account? KLICKE HIER!
+          </button>
+        </form>
+      </div>
+      <button id="closeBtn">Verlassen</button>
 
-    <p id="userEmail"></p>
+      <p id="userEmail"></p>
+    </div>
+    <div id="mainPanel">
+      <div class="topBar">
+        <img
+          class="topBarBtns"
+          id="settingsBtn"
+          src="./sprites/settings_icon.png"
+        />
+        <img
+          class="topBarBtns"
+          id="profileBtn"
+          src="./sprites/profile_icon.png"
+        />
+      </div>
+      <h1>Du bist eingeloggt!</h1>
+    </div>
+
+    <div class="panels" id="settingsPanel">
+      <h1>Settings</h1>
+      <button id="settingsBack">back</button>
+    </div>
+
+    <div class="panels" id="profilePanel">
+      <h1>Profile</h1>
+      <button id="profileBack">back</button>
+      <img id="saveProfileBtn" src="./sprites/save_icon.png" />
+    </div>
   </body>
 </html>
 
@@ -43,9 +71,15 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
   import {
+    getFirestore,
+    doc,
+    setDoc,
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    signOut,
   } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
   // Your web app's Firebase configuration
@@ -64,20 +98,27 @@
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
   let user;
+  //on start
+  document.getElementById("settingsPanel").style.display = "none";
+  document.getElementById("profilePanel").style.display = "none";
 
-  //on start show login inputs and buttons
   if (!user) {
     document.getElementById("registerBTN").style.display = "none";
     document.getElementById("loginBTN").style.display = "block";
     document.getElementById("changeToRegister").style.display = "block";
     document.getElementById("changeToLogin").style.display = "none";
+
+    document.getElementById("mainPanel").style.display = "none";
   } else {
     document.getElementById("registerBTN").style.display = "none";
     document.getElementById("loginBTN").style.display = "none";
     document.getElementById("changeToRegister").style.display = "none";
     document.getElementById("changeToLogin").style.display = "none";
+
+    document.getElementById("mainPanel").style.display = "block";
   }
 
   //when changeToRegister button clicked, show register button and inputs
@@ -99,20 +140,21 @@
     let email = document.getElementById("emailInput").value;
     let password = document.getElementById("passwordInput").value;
 
-    console.log(email);
-    console.log(password);
-
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         user = userCredential.user;
         document.getElementById("userEmail").textContent = user.email;
-        // ...
+        document.getElementById("loginPanel").style.display = "none";
+        document.getElementById("mainPanel").style.display = "block";
+
+        setDoc(doc(db, "Users", user.email), {
+          Email: user.email,
+        });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
       });
   });
 
@@ -128,13 +170,41 @@
         // Signed up
         user = userCredential.user;
         document.getElementById("userEmail").textContent = user.email;
-        // ...
+        document.getElementById("loginPanel").style.display = "none";
+        document.getElementById("mainPanel").style.display = "block";
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
       });
+  });
+
+  //   signOut(auth).then(() => {
+  //   // Sign-out successful.
+  // }).catch((error) => {
+  //   // An error happened.
+  // });
+
+  document.getElementById("settingsBtn").addEventListener("click", () => {
+    //open settings panel
+    document.getElementById("settingsPanel").style.display = "block";
+    document.getElementById("profilePanel").style.display = "none";
+  });
+
+  document.getElementById("profileBtn").addEventListener("click", () => {
+    //open profile panel
+    document.getElementById("profilePanel").style.display = "block";
+    document.getElementById("settingsPanel").style.display = "none";
+  });
+
+  document.getElementById("settingsBack").addEventListener("click", () => {
+    //open settings panel
+    document.getElementById("settingsPanel").style.display = "none";
+  });
+
+  document.getElementById("profileBack").addEventListener("click", () => {
+    //open profile panel
+    document.getElementById("profilePanel").style.display = "none";
   });
 
   document.getElementById("closeBtn").addEventListener("click", () => {

@@ -6,7 +6,7 @@ let splash;
 app.on("ready", () => {
   // create main browser window
   mainWindow = new BrowserWindow({
-    titleBarStyle: "default",
+    titleBarStyle: "hidden",
     width: 1920,
     height: 1080,
     show: false, // don't show the main window
@@ -18,6 +18,7 @@ app.on("ready", () => {
   });
   // create a new `splash`-Window
   splash = new BrowserWindow({
+    titleBarStyle: "hidden",
     width: 810,
     height: 610,
     transparent: true,
