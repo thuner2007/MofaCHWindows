@@ -34,8 +34,6 @@
         </form>
       </div>
       <button id="closeBtn">Verlassen</button>
-
-      <p id="userEmail"></p>
     </div>
     <div id="mainPanel">
       <div class="topBar">
@@ -60,7 +58,16 @@
 
     <div class="panels" id="profilePanel">
       <h1>Profile</h1>
+      <form>
+        <input type="text" id="firstnameInput" placeholder="Vorname" />
+        <input type="text" id="secondnameInput" placeholder="Nachname" />
+      </form>
+      <form>
+        <input type="text" id="userNameInput" placeholder="Benutzername" />
+        <input type="text" id="biographyInput" placeholder="bio" />
+      </form>
       <button id="profileBack">back</button>
+      <button id="logoutProfile">logout</button>
       <img id="saveProfileBtn" src="./sprites/save_icon.png" />
     </div>
   </body>
@@ -74,6 +81,8 @@
     getFirestore,
     doc,
     setDoc,
+    getDoc,
+    collection,
   } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
   import {
     getAuth,
@@ -104,21 +113,27 @@
   //on start
   document.getElementById("settingsPanel").style.display = "none";
   document.getElementById("profilePanel").style.display = "none";
+  checkIfLoggedIn();
 
-  if (!user) {
-    document.getElementById("registerBTN").style.display = "none";
-    document.getElementById("loginBTN").style.display = "block";
-    document.getElementById("changeToRegister").style.display = "block";
-    document.getElementById("changeToLogin").style.display = "none";
+  function checkIfLoggedIn() {
+    if (!user) {
+      document.getElementById("registerBTN").style.display = "none";
+      document.getElementById("loginBTN").style.display = "block";
+      document.getElementById("changeToRegister").style.display = "block";
+      document.getElementById("changeToLogin").style.display = "none";
+      document.getElementById("settingsPanel").style.display = "none";
+      document.getElementById("profilePanel").style.display = "none";
+      document.getElementById("loginPanel").style.display = "block";
 
-    document.getElementById("mainPanel").style.display = "none";
-  } else {
-    document.getElementById("registerBTN").style.display = "none";
-    document.getElementById("loginBTN").style.display = "none";
-    document.getElementById("changeToRegister").style.display = "none";
-    document.getElementById("changeToLogin").style.display = "none";
+      document.getElementById("mainPanel").style.display = "none";
+    } else {
+      document.getElementById("registerBTN").style.display = "none";
+      document.getElementById("loginBTN").style.display = "none";
+      document.getElementById("changeToRegister").style.display = "none";
+      document.getElementById("changeToLogin").style.display = "none";
 
-    document.getElementById("mainPanel").style.display = "block";
+      document.getElementById("mainPanel").style.display = "block";
+    }
   }
 
   //when changeToRegister button clicked, show register button and inputs
@@ -144,9 +159,12 @@
       .then((userCredential) => {
         // Signed up
         user = userCredential.user;
-        document.getElementById("userEmail").textContent = user.email;
         document.getElementById("loginPanel").style.display = "none";
         document.getElementById("mainPanel").style.display = "block";
+
+        //clear input fields
+        document.getElementById("emailInput").value = "";
+        document.getElementById("passwordInput").value = "";
 
         setDoc(doc(db, "Users", user.email), {
           Email: user.email,
@@ -162,16 +180,16 @@
     let email = document.getElementById("emailInput").value;
     let password = document.getElementById("passwordInput").value;
 
-    console.log(email);
-    console.log(password);
-
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         user = userCredential.user;
-        document.getElementById("userEmail").textContent = user.email;
         document.getElementById("loginPanel").style.display = "none";
         document.getElementById("mainPanel").style.display = "block";
+
+        //clear input fields
+        document.getElementById("emailInput").value = "";
+        document.getElementById("passwordInput").value = "";
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -179,11 +197,29 @@
       });
   });
 
-  //   signOut(auth).then(() => {
-  //   // Sign-out successful.
-  // }).catch((error) => {
-  //   // An error happened.
-  // });
+  saveProfileBtn.addEventListener("click", (e) => {
+    setDoc(doc(db, "Users", user.email), {
+      Email: user.email,
+      username: document.getElementById("userNameInput").value,
+      firstname: document.getElementById("firstnameInput").value,
+      secondname: document.getElementById("secondnameInput").value,
+      biography: document.getElementById("biographyInput").value,
+    });
+  });
+
+  logoutProfile.addEventListener("click", (e) => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        console.log("signed out!");
+        user = null;
+        checkIfLoggedIn();
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log("error while logout!: " + error);
+      });
+  });
 
   document.getElementById("settingsBtn").addEventListener("click", () => {
     //open settings panel
@@ -192,9 +228,22 @@
   });
 
   document.getElementById("profileBtn").addEventListener("click", () => {
-    //open profile panel
+    // open profile panel
     document.getElementById("profilePanel").style.display = "block";
     document.getElementById("settingsPanel").style.display = "none";
+
+    // get profile data
+    getDoc(doc(db, "Users", user.email)).then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+
+        // Set the input values
+        document.getElementById("userNameInput").value = data.username;
+        document.getElementById("firstnameInput").value = data.firstname;
+        document.getElementById("secondnameInput").value = data.secondname;
+        document.getElementById("biographyInput").value = data.biography;
+      }
+    });
   });
 
   document.getElementById("settingsBack").addEventListener("click", () => {
