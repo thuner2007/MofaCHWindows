@@ -82,15 +82,21 @@
     </div>
 
     <div id="LiveChat">
-      <div id="LiveChatMessages"></div>
-      <form>
-        <input
-          type="text"
-          id="messageInput"
-          placeholder="schreibe eine Nachricht!"
-        />
-      </form>
-      <button id="sendMessage">senden</button>
+      <div id="LiveChatHolder">
+        <div id="LiveChatMessagesLeft"></div>
+        <div id="LiveChatMessagesRight"></div>
+      </div>
+
+      <div id="textInputPanel">
+        <button id="sendMessage">senden</button>
+        <form>
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="schreibe eine Nachricht!"
+          />
+        </form>
+      </div>
     </div>
   </body>
 </html>

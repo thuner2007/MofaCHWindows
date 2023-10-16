@@ -134,3 +134,100 @@ p {
   border: none;
   background-color: transparent;
 }
+
+#LiveChatHolder {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 65%;
+  border: 5px solid black;
+
+  display: flex;
+  align-items: center;
+  justify-content: start;
+
+  flex-direction: row;
+
+  overflow: auto;
+}
+
+#LiveChatMessagesLeft,
+#LiveChatMessagesRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 50%;
+  height: 100%;
+}
+
+#LiveChatMessagesLeft p,
+#LiveChatMessagesRight p {
+  position: relative;
+
+  max-width: 90%;
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+#LiveChatMessagesRight p {
+  align-self: flex-end;
+  text-align: right;
+}
+
+#LiveChatMessagesLeft p {
+  align-self: flex-start;
+  text-align: left;
+}
+
+.myText,
+.othersText {
+  border: 3px solid black;
+  border-radius: 20px;
+
+  margin: 15px;
+  padding: 10px;
+
+  background-color: cyan;
+}
+
+.timestampright,
+.timestampleft {
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.timestampright {
+  right: 0;
+}
+
+.timestampleft {
+  left: 0;
+}
+
+#textInputPanel {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 25%;
+  border: 5px solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+#textInputPanel button,
+#textInputPanel input {
+  width: 90%;
+  height: 10%;
+}
