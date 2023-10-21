@@ -142,92 +142,57 @@ p {
   transform: translate(-50%, -50%);
   width: 75%;
   height: 65%;
-  border: 5px solid black;
-
-  display: flex;
-  align-items: center;
-  justify-content: start;
-
-  flex-direction: row;
+  border: 5px solid violet;
 
   overflow: auto;
 }
 
-#LiveChatMessagesLeft,
-#LiveChatMessagesRight {
+.myText {
+  background-color: #dcf8c6;
+  color: #000; /* Black text color */
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 45%; /* Adjust as needed */
+  display: inline-block;
+  margin-bottom: 5px;
+  clear: both;
+  float: right;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  width: 50%;
-  height: 100%;
+  align-items: end;
 }
 
-#LiveChatMessagesLeft p,
-#LiveChatMessagesRight p {
-  position: relative;
-
-  max-width: 90%;
-  box-sizing: border-box; /* Ensures padding and border are included in the width */
-}
-
-#LiveChatMessagesRight p {
-  align-self: flex-end;
-  text-align: right;
-}
-
-#LiveChatMessagesLeft p {
-  align-self: flex-start;
-  text-align: left;
-}
-
-.myText,
 .othersText {
-  border: 3px solid black;
-  border-radius: 20px;
-
-  margin: 15px;
+  background-color: #efefef;
+  color: #000; /* Black text color */
   padding: 10px;
-
-  background-color: cyan;
-}
-
-.timestampright,
-.timestampleft {
-  font-size: 12px;
-  position: absolute;
-  bottom: 0;
-
-  margin-top: 5px;
+  border-radius: 10px;
+  max-width: 45%; /* Adjust as needed */
+  display: inline-block;
   margin-bottom: 5px;
+  clear: both;
+  float: left;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
-.timestampright {
-  right: 0;
+.timestamp {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  display: inline-block;
+  font-size: 12px;
 }
 
-.timestampleft {
-  left: 0;
+.message {
+  line-break: auto;
+  word-wrap: break-word; /* Added to allow long words to wrap */
 }
 
 #textInputPanel {
   position: absolute;
-  top: 90%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 75%;
-  height: 25%;
-  border: 5px solid black;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  flex-direction: column;
-}
-
-#textInputPanel button,
-#textInputPanel input {
-  width: 90%;
-  height: 10%;
+  bottom: 10%;
 }

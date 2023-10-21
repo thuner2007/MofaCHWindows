@@ -18,16 +18,10 @@ document.getElementById("liveChatBtn").addEventListener("click", (e) => {
   onSnapshot(
     query(collection(db, "LiveChat"), orderBy("timestamp")),
     (querySnapshot) => {
-      const LiveChatMessagesLeft = document.getElementById(
-        "LiveChatMessagesLeft"
-      );
-      const LiveChatMessagesRight = document.getElementById(
-        "LiveChatMessagesRight"
-      );
+      const LiveChatHolder = document.getElementById("LiveChatHolder");
 
       // Clear any existing content in the container
-      LiveChatMessagesLeft.innerHTML = "";
-      LiveChatMessagesRight.innerHTML = "";
+      LiveChatHolder.innerHTML = "";
 
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -36,16 +30,21 @@ document.getElementById("liveChatBtn").addEventListener("click", (e) => {
         const timestamp = data.timestamp;
         const email = data.email;
 
+        //Create new div for each message
+        const newDiv = document.createElement("div");
+        if (email === user.email) {
+          newDiv.classList.add("myText");
+          LiveChatHolder.appendChild(newDiv);
+        } else {
+          newDiv.classList.add("othersText");
+          LiveChatHolder.appendChild(newDiv);
+        }
+
         // Create a new <p> element for each message
         const newPTag = document.createElement("p");
         newPTag.textContent = username + ": " + message;
-        if (email === user.email) {
-          newPTag.classList.add("myText");
-          LiveChatMessagesRight.appendChild(newPTag);
-        } else {
-          newPTag.classList.add("othersText");
-          LiveChatMessagesLeft.appendChild(newPTag);
-        }
+        newPTag.classList.add("message");
+        newDiv.appendChild(newPTag);
 
         const date = new Date(timestamp);
 
@@ -60,17 +59,12 @@ document.getElementById("liveChatBtn").addEventListener("click", (e) => {
         const timestampText = document.createElement("p");
         timestampText.textContent = formattedDate;
         if (email === user.email) {
-          timestampText.classList.add("timestampright");
+          timestampText.classList.add("timestamp");
         } else {
-          timestampText.classList.add("timestampleft");
+          timestampText.classList.add("timestamp");
         }
 
-        newPTag.appendChild(timestampText);
-
-        const divElement = document.getElementById("LiveChatMessagesLeft");
-        divElement.scrollTop = divElement.scrollHeight;
-        const divElement2 = document.getElementById("LiveChatMessagesRight");
-        divElement2.scrollTop = divElement2.scrollHeight;
+        newDiv.appendChild(timestampText);
       });
     }
   );
