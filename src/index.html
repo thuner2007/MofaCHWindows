@@ -9,6 +9,7 @@
     <script type="module" src="firestore.js"></script>
     <script type="module" src="main.js"></script>
     <script type="module" src="liveChat.js"></script>
+    <script type="module" src="search.js"></script>
     <!-- <script defer src="render.js"></script> -->
   </head>
   <body>
@@ -57,6 +58,11 @@
           id="liveChatBtn"
           src="./sprites/chat_icon.jpg"
         />
+        <img
+          class="topBarBtns"
+          id="searchBtn"
+          src="./sprites/Search_Icon.png"
+        />
       </div>
       <h1>Du bist eingeloggt!</h1>
     </div>
@@ -86,14 +92,20 @@
 
       <div id="textInputPanel">
         <button id="sendMessage">senden</button>
-        <form>
-          <input
-            type="text"
-            id="messageInput"
-            placeholder="schreibe eine Nachricht!"
-          />
-        </form>
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="schreibe eine Nachricht!"
+        />
       </div>
+    </div>
+    <div class="panels" id="searchPanel">
+      <input type="text" id="searchInput" placeholder="Nutzer suchen..." />
+      <button id="searchButton"></button>
+      <p>test</p>
+      <p>test</p>
+      <p>test</p>
+      <p>test</p>
     </div>
   </body>
 </html>

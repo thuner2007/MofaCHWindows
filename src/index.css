@@ -196,3 +196,9 @@ p {
   left: 50%;
   bottom: 10%;
 }
+
+#searchPanel {
+  display: flex;
+
+  flex-direction: column;
+}

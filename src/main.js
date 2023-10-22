@@ -31,6 +31,7 @@ function checkIfLoggedIn() {
     document.getElementById("changeToLogin").style.display = "none";
     document.getElementById("settingsPanel").style.display = "none";
     document.getElementById("profilePanel").style.display = "none";
+    document.getElementById("searchPanel").style.display = "none";
     document.getElementById("loginPanel").style.display = "block";
     document.getElementById("LiveChat").style.display = "none";
 
@@ -50,6 +51,7 @@ liveChatBtn.addEventListener("click", (e) => {
   document.getElementById("LiveChat").style.display = "block";
   document.getElementById("settingsPanel").style.display = "none";
   document.getElementById("profilePanel").style.display = "none";
+  document.getElementById("searchPanel").style.display = "none";
 });
 
 //when changeToRegister button clicked, show register button and inputs
@@ -142,6 +144,15 @@ document.getElementById("settingsBtn").addEventListener("click", () => {
   document.getElementById("settingsPanel").style.display = "block";
   document.getElementById("profilePanel").style.display = "none";
   document.getElementById("LiveChat").style.display = "none";
+  document.getElementById("searchPanel").style.display = "none";
+});
+
+document.getElementById("searchBtn").addEventListener("click", () => {
+  //open settings panel
+  document.getElementById("settingsPanel").style.display = "none";
+  document.getElementById("profilePanel").style.display = "none";
+  document.getElementById("LiveChat").style.display = "none";
+  document.getElementById("searchPanel").style.display = "block";
 });
 
 document.getElementById("profileBtn").addEventListener("click", () => {
@@ -149,6 +160,7 @@ document.getElementById("profileBtn").addEventListener("click", () => {
   document.getElementById("profilePanel").style.display = "block";
   document.getElementById("settingsPanel").style.display = "none";
   document.getElementById("LiveChat").style.display = "none";
+  document.getElementById("searchPanel").style.display = "none";
 
   // get profile data
   getDoc(doc(db, "Users", user.email)).then((docSnapshot) => {

@@ -65,6 +65,8 @@ document.getElementById("liveChatBtn").addEventListener("click", (e) => {
         }
 
         newDiv.appendChild(timestampText);
+
+        LiveChatHolder.scrollTop = LiveChatHolder.scrollHeight;
       });
     }
   );
