@@ -20,7 +20,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.9.5",
     "electron-squirrel-startup": "^1.0.0",
-    "firebase": "^10.4.0"
+    "firebase": "^10.5.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.4.2",
