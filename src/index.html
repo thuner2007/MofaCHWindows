@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>MofaCH</title>
@@ -10,17 +10,13 @@
     <script type="module" src="main.js"></script>
     <script type="module" src="liveChat.js"></script>
     <script type="module" src="search.js"></script>
-    <!-- <script defer src="render.js"></script> -->
   </head>
+
   <body>
     <div id="loginPanel">
       <h1>MofaCH</h1>
-      <p>
-        MofaCH ist eine Platform, für alle Töfflibuebe und Töfflimeitli! Hier
-        kannst du dein Mofa zeigen, hast einen Marktplatz, einen Tutorialbereich
-        wo andere Nutzer hilfreiche Tutorials hochladen können und vieles mehr.
-        Sei gespannt und entdecke MofaCH! Created by Colin
-      </p>
+      <p>Hey!</p>
+      <button id="normalLogin">Use Normal Login (dev)</button>
       <div class="formgrid">
         <form>
           <input type="email" id="emailInput" placeholder="deine@email.com" />
@@ -32,15 +28,16 @@
           <button type="button" id="registerBTN">Registrieren</button>
           <button type="button" id="loginBTN">Anmelden</button>
           <button type="button" id="changeToRegister">
-            Du hast noch keinen Account? KLICKE HIER!
+            Du hast noch keinen Account? Account erstellen.
           </button>
           <button type="button" id="changeToLogin">
-            Du hast einen Account? KLICKE HIER!
+            Du hast einen Account? Anmelden.
           </button>
         </form>
       </div>
       <button id="closeBtn">Verlassen</button>
     </div>
+
     <div id="mainPanel">
       <div class="topBar">
         <img
@@ -69,7 +66,7 @@
 
     <div class="panels" id="settingsPanel">
       <h1>Settings</h1>
-      <button id="settingsBack">back</button>
+      <button class="midButtons" id="settingsBack">back</button>
     </div>
 
     <div class="panels" id="profilePanel">
@@ -83,13 +80,12 @@
         <input type="text" id="biographyInput" placeholder="bio" />
       </form>
       <button id="profileBack">back</button>
-      <button id="logoutProfile">logout</button>
+      <button class="midButtons" id="logoutProfile">logout</button>
       <img id="saveProfileBtn" src="./sprites/save_icon.png" />
     </div>
 
     <div id="LiveChat">
       <div id="LiveChatHolder"></div>
-
       <div id="textInputPanel">
         <button id="sendMessage">senden</button>
         <input
@@ -99,13 +95,20 @@
         />
       </div>
     </div>
+
     <div class="panels" id="searchPanel">
-      <input type="text" id="searchInput" placeholder="Nutzer suchen..." />
-      <button id="searchButton"></button>
-      <p>test</p>
-      <p>test</p>
-      <p>test</p>
-      <p>test</p>
+      <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Nutzer suchen..." />
+        <button class="midButtons" id="searchButton">Suchen...</button>
+      </form>
+      <button id="searchedUserButton"></button>
+      <p id="searchP"></p>
+    </div>
+
+    <div class="panels" id="searchedUserpanel">
+      <p id="searchedUsername"></p>
+      <p id="searchedUserFirstname"></p>
+      <button id="searchedUserPanelBack">Back</button>
     </div>
   </body>
 </html>

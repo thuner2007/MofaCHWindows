@@ -94,6 +94,27 @@ registerBTN.addEventListener("click", (e) => {
     });
 });
 
+normalLogin.addEventListener("click", (e) => {
+  let email = "thuner2007@outlook.com";
+  let password = "12345678";
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up
+      user = userCredential.user;
+      document.getElementById("loginPanel").style.display = "none";
+      document.getElementById("mainPanel").style.display = "block";
+
+      //clear input fields
+      document.getElementById("emailInput").value = "";
+      document.getElementById("passwordInput").value = "";
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+});
+
 loginBTN.addEventListener("click", (e) => {
   let email = document.getElementById("emailInput").value;
   let password = document.getElementById("passwordInput").value;
