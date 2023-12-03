@@ -36,6 +36,7 @@ function checkIfLoggedIn() {
     document.getElementById("LiveChat").style.display = "none";
 
     document.getElementById("mainPanel").style.display = "none";
+    document.getElementById("topbar").style.display = "none";
   } else {
     document.getElementById("registerBTN").style.display = "none";
     document.getElementById("loginBTN").style.display = "none";
@@ -44,6 +45,7 @@ function checkIfLoggedIn() {
     document.getElementById("LiveChat").style.display = "none";
 
     document.getElementById("mainPanel").style.display = "block";
+    document.getElementById("topbar").style.display = "block";
   }
 }
 
@@ -84,6 +86,8 @@ registerBTN.addEventListener("click", (e) => {
       document.getElementById("emailInput").value = "";
       document.getElementById("passwordInput").value = "";
 
+      checkIfLoggedIn();
+
       setDoc(doc(db, "Users", user.email), {
         Email: user.email,
       });
@@ -108,6 +112,8 @@ normalLogin.addEventListener("click", (e) => {
       //clear input fields
       document.getElementById("emailInput").value = "";
       document.getElementById("passwordInput").value = "";
+
+      checkIfLoggedIn();
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -129,6 +135,8 @@ loginBTN.addEventListener("click", (e) => {
       //clear input fields
       document.getElementById("emailInput").value = "";
       document.getElementById("passwordInput").value = "";
+
+      checkIfLoggedIn();
     })
     .catch((error) => {
       const errorCode = error.code;

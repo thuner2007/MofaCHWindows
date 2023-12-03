@@ -13,6 +13,36 @@
   </head>
 
   <body>
+    <header>
+      <div class="topBar" id="topbar">
+        <img
+          class="topBarBtns"
+          id="settingsBtn"
+          src="./sprites/settings_icon.png"
+        />
+        <img
+          class="topBarBtns"
+          id="profileBtn"
+          src="./sprites/profile_icon.png"
+        />
+        <img
+          class="topBarBtns"
+          id="liveChatBtn"
+          src="./sprites/chat_icon.jpg"
+        />
+        <img
+          class="topBarBtns"
+          id="searchBtn"
+          src="./sprites/Search_Icon.png"
+        />
+      </div>
+    </header>
+    <main>
+      <div id="mainPanel">
+        <h1>Du bist eingeloggt!</h1>
+        <p>lololololol</p>
+      </div>
+    </main>
     <div id="loginPanel">
       <h1>MofaCH</h1>
       <p>Hey!</p>
@@ -37,33 +67,6 @@
       </div>
       <button id="closeBtn">Verlassen</button>
     </div>
-
-    <div id="mainPanel">
-      <div class="topBar">
-        <img
-          class="topBarBtns"
-          id="settingsBtn"
-          src="./sprites/settings_icon.png"
-        />
-        <img
-          class="topBarBtns"
-          id="profileBtn"
-          src="./sprites/profile_icon.png"
-        />
-        <img
-          class="topBarBtns"
-          id="liveChatBtn"
-          src="./sprites/chat_icon.jpg"
-        />
-        <img
-          class="topBarBtns"
-          id="searchBtn"
-          src="./sprites/Search_Icon.png"
-        />
-      </div>
-      <h1>Du bist eingeloggt!</h1>
-    </div>
-
     <div class="panels" id="settingsPanel">
       <h1>Settings</h1>
       <button class="midButtons" id="settingsBack">back</button>
@@ -84,7 +87,7 @@
       <img id="saveProfileBtn" src="./sprites/save_icon.png" />
     </div>
 
-    <div id="LiveChat">
+    <div class="panels" id="LiveChat">
       <div id="LiveChatHolder"></div>
       <div id="textInputPanel">
         <button id="sendMessage">senden</button>
