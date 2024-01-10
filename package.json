@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@grpc/grpc-js": "^1.9.5",
+    "@grpc/grpc-js": "^1.9.6",
     "electron-squirrel-startup": "^1.0.0",
     "firebase": "^10.4.0"
   },
